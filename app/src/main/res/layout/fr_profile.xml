@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import
+            alias="V"
+            type="android.view.View" />
 
-    <include
-        layout="@layout/v_profile"
-        android:visibility="gone" />
+        <variable
+            name="vm"
+            type="com.elegion.test.behancer.ui.profile.ProfileViewModel" />
+    </data>
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/refresh_profile"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        bind:onRefresh="@{vm.onRefreshListener}"
+        bind:refreshState="@{vm.isLoading}">>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <include
+                layout="@layout/v_profile"
+                android:visibility="gone" />
 
-    <include
-        layout="@layout/v_error"
-        android:visibility="gone" />
+            <include
+                layout="@layout/v_error"
+                android:visibility="gone" />
 
-</LinearLayout>
+        </FrameLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</layout>
+
+
