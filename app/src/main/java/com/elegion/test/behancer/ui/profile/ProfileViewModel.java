@@ -1,9 +1,11 @@
 package com.elegion.test.behancer.ui.profile;
 
 import android.databinding.ObservableBoolean;
-import android.view.View;
+import android.databinding.ObservableField;
 
 import com.elegion.test.behancer.data.Storage;
+
+import com.elegion.test.behancer.data.model.user.User;
 import com.elegion.test.behancer.utils.ApiUtils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -15,6 +17,7 @@ public class ProfileViewModel {
     private Storage mStorage;
     private ObservableBoolean mIsErrorVisible = new ObservableBoolean(false);
     private ObservableBoolean mIsLoading = new ObservableBoolean(false);
+    private ObservableField<User> mUser;
 
     public ProfileViewModel(Storage storage) {
         mStorage = storage;
@@ -34,6 +37,7 @@ public class ProfileViewModel {
                 .subscribe(
                         response -> {
                             mIsErrorVisible.set(false);
+                            mUser = new ObservableField<>(response.getUser());
                             //bind(response.getUser());
                         },
                         throwable -> {
@@ -48,11 +52,15 @@ public class ProfileViewModel {
         }
     }
 
-    public ObservableBoolean getmIsErrorVisible() {
+    public ObservableBoolean getIsErrorVisible() {
         return mIsErrorVisible;
     }
 
-    public ObservableBoolean getmIsLoading() {
+    public ObservableBoolean getIsLoading() {
         return mIsLoading;
+    }
+
+    public ObservableField<User> getUser() {
+        return mUser;
     }
 }
